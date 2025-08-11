@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Confess Sakura</title>
+  <style>
+    body {
+      background: linear-gradient(to bottom, #ffe6f0, #ffd6e8);
+      min-height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      background-color: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 400px;
+      width: 100%;
+      animation: fadeIn 1s ease-in-out, glow 2s ease-in-out infinite alternate;
+      box-shadow: 0 0 20px rgba(0, 191, 255, 0.7);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #e91e63;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #333;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background-color: #e91e63;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #d81b60;
+    }
+    .message-box {
+      margin-top: 20px;
+      padding: 15px;
+      background: #fef0f5;
+      border-left: 5px solid #e91e63;
+      border-radius: 8px;
+      display: none;
+      color: #444;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Confess 🌸</h1>
+
+    <label for="nama">Nama Kamu</label>
+    <input type="text" id="nama" placeholder="Masukkan namamu..."/>
+
+    <label for="nomorTarget">Nomor Target (WhatsApp)</label>
+    <input type="text" id="nomorTarget" placeholder="Contoh: 628xxxxxx"/>
+
+    <label for="tujuan">Untuk Siapa?</label>
+    <select id="tujuan">
+      <option value="crush">Crush 💘</option>
+      <option value="teman">Teman 🧑‍🤝‍🧑</option>
+    </select>
+
+    <label for="pesan">Pesan</label>
+    <textarea id="pesan" rows="4" placeholder="Tulis isi hatimu di sini..."></textarea>
+
+    <button id="tombolKirim">Kirim</button>
+
+    <div class="message-box" id="hasil">
+      Tulisan Anda telah terkirim, tunggu jawabannya ya~ 💌
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCHU9iYteDTbTdGhz5zaFiNv-y1Tqj2DSg",
+      authDomain: "web-shop-7df3d.firebaseapp.com",
+      projectId: "web-shop-7df3d",
+      storageBucket: "web-shop-7df3d.firebasestorage.app",
+      messagingSenderId: "587054063426",
+      appId: "1:587054063426:web:190419f7ba3a5dedc4b2db",
+      measurementId: "G-D3YYTQTSNT"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    document.getElementById("tombolKirim").addEventListener("click", () => {
+      const nama = document.getElementById("nama").value.trim();
+      const nomorTarget = document.getElementById("nomorTarget").value.trim();
+      const tujuan = document.getElementById("tujuan").value;
+      const pesan = document.getElementById("pesan").value.trim();
+      const hasil = document.getElementById("hasil");
+
+      if (!nama || !pesan || !nomorTarget) {
+        alert("Harap isi semua kolom terlebih dahulu ya~");
+        return;
+      }
+
+      const data = {
+        nama,
+        nomorTarget,
+        tujuan,
+        pesan,
+        waktu: new Date().toISOString()
+      };
+
+      push(ref(db, "confesses"), data)
+        .then(() => {
+          hasil.style.display = "block";
+        })
+        .catch((error) => {
+          console.error("Gagal kirim data:", error);
+          alert("Terjadi kesalahan saat mengirim.");
+        });
+    });
+  </script>
+</body>
+</html>
