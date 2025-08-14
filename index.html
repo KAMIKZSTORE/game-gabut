@@ -1,64 +1,98 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-  <title>FPP Demo — Gun & Mobile Controls</title>
-  <link rel="stylesheet" href="style.css">
-  <!-- three.js dari CDN -->
-  <script src="https://unpkg.com/three@0.154.0/build/three.min.js"></script>
-  <script src="https://unpkg.com/three@0.154.0/examples/js/controls/PointerLockControls.js"></script>
-</head>
-<body>
-  <div id="gameContainer"></div>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kz-Official — Mini CPU-Z</title>
 
-  <!-- HUD / Controls -->
-  <div id="hud">
-    <div id="leftPad">
-      <div id="joystickBase">
-        <div id="joystickKnob"></div>
+  <link rel="stylesheet" href="./styles.css" />
+
+  <!-- Tailwind (opsional; kalau tidak perlu, hapus baris ini) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- UAParser (deteksi vendor/model/OS/browser) -->
+  <script src="./vendor/ua-parser.min.js"></script>
+
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body class="page">
+  <main class="card container">
+    <header class="card__head">
+      <div class="brand">
+        <img src="./images/logo.png" alt="logo" class="brand__logo" />
+        <h1 class="brand__title">Kz-Official — Mini CPU-Z</h1>
+      </div>
+      <span id="status" class="status">Menunggu persetujuan…</span>
+    </header>
+
+    <section class="grid">
+      <article class="panel">
+        <h2>Identitas Perangkat</h2>
+        <ul class="kv">
+          <li><b>Merek</b><span id="v_vendor">—</span></li>
+          <li><b>Model</b><span id="v_model">—</span></li>
+          <li><b>OS</b><span id="v_os">—</span></li>
+          <li><b>Browser</b><span id="v_browser">—</span></li>
+          <li><b>Platform</b><span id="v_platform">—</span></li>
+          <li><b>Resolusi</b><span id="v_res">—</span></li>
+          <li><b>Kedalaman Warna</b><span id="v_depth">—</span></li>
+        </ul>
+      </article>
+
+      <article class="panel">
+        <h2>Jaringan & Lokasi</h2>
+        <ul class="kv">
+          <li><b>IP</b><span id="v_ip">—</span></li>
+          <li><b>Provinsi</b><span id="v_prov">—</span></li>
+          <li><b>Kota</b><span id="v_kota">—</span></li>
+          <li><b>GPS</b><span id="v_gps">—</span></li>
+          <li><b>Zona Waktu</b><span id="v_tz">—</span></li>
+          <li><b>Koneksi</b><span id="v_conn">—</span></li>
+          <li><b>Perk. Downlink</b><span id="v_speed">—</span></li>
+          <li><b>Status Online</b><span id="v_online">—</span></li>
+        </ul>
+      </article>
+
+      <article class="panel panel--full">
+        <h2>Perangkat</h2>
+        <ul class="kv">
+          <li><b>Baterai</b><span id="v_batt">—</span></li>
+          <li><b>Cookies</b><span id="v_cookie">—</span></li>
+          <li><b>User-Agent</b><span id="v_ua" class="ua">—</span></li>
+        </ul>
+      </article>
+    </section>
+
+    <footer class="card__foot">
+      <small>Data disimpan ke Firebase & dikirim ke email admin via EmailJS setelah Anda menyetujui.</small>
+    </footer>
+  </main>
+
+  <!-- Modal persetujuan -->
+  <div id="consentModal" class="modal show">
+    <div class="modal__card">
+      <h3>Persetujuan Pengambilan Data</h3>
+      <p>
+        Kami akan mengumpulkan info perangkat (merek, model, OS, browser), IP, lokasi (GPS), status baterai,
+        info koneksi, dan data teknis lain untuk keperluan diagnostik. Data disimpan di Firebase dan
+        ringkasannya dikirim ke email admin. Lanjutkan?
+      </p>
+      <label class="chk">
+        <input type="checkbox" id="agree" />
+        <span>Saya setuju dan mengizinkan lokasi & pengambilan data perangkat.</span>
+      </label>
+      <div class="modal__actions">
+        <button id="btnAgree" class="btn">Setuju & Lanjutkan</button>
+        <button id="btnCancel" class="btn btn--ghost">Batal</button>
       </div>
     </div>
-
-    <div id="rightPad">
-      <button id="btnShoot" class="hudBtn">Tembak</button>
-      <button id="btnJump" class="hudBtn">Loncat</button>
-      <button id="btnRun" class="hudBtn toggle">Lari</button>
-    </div>
-
-    <div id="crosshair">+</div>
-    <div id="fpsInfo"></div>
   </div>
 
-  <script>
-    // simple UI for leaderboard & save (optional)
-    function saveScoreToServer(player, score){
-      fetch('server/api.php?action=save_score', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `player=${encodeURIComponent(player)}&score=${score}`
-      })
-      .then(res => res.json())
-      .then(data => console.log('Save score result:', data));
-    }
-
-    function getLeaderboard(){
-      fetch('server/api.php?action=get_leaderboard')
-        .then(res => res.json())
-        .then(data => console.log('Leaderboard:', data));
-    }
-
-    function getAIDifficulty(score){
-      fetch('server/run_ai.php', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        body: `score=${score}`
-      })
-      .then(res => res.json())
-      .then(data => console.log('AI Difficulty:', data));
-    }
-  </script>
-
-  <script src="app.js"></script>
+  <!-- Config terpisah -->
+  <script src="./firebase.js"></script>
+  <script src="./email.js"></script>
+  <!-- App utama -->
+  <script src="./app.js"></script>
 </body>
 </html>
