@@ -1,8 +1,8 @@
 <script>
   // ====== GANTI DENGAN PUNYAMU (EmailJS) ======
-  const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
-  const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID';
-  const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+  const EMAILJS_PUBLIC_KEY = 'toe1V0T6UlCZBtw_4';
+  const EMAILJS_SERVICE_ID = 'service_faxghxt';
+  const EMAILJS_TEMPLATE_ID = 'template_rl1f4xs';
   // =============================================
 
   // init SDK
