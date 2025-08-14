@@ -5,11 +5,15 @@
 <script>
   // ====== GANTI DENGAN PUNYAMU ======
   const firebaseConfig = {
-    apiKey: "API_KEY_KAMU",
-    authDomain: "PROJECT_ID.firebaseapp.com",
-    projectId: "PROJECT_ID",
-    appId: "APP_ID_KAMU"
-  };
+  apiKey: "AIzaSyBFdVnl_uNV2v5GvZHN95Ng-02MmrcLEdU",
+  authDomain: "kamikz-6923d.firebaseapp.com",
+  databaseURL: "https://kamikz-6923d-default-rtdb.firebaseio.com",
+  projectId: "kamikz-6923d",
+  storageBucket: "kamikz-6923d.firebasestorage.app",
+  messagingSenderId: "859160167861",
+  appId: "1:859160167861:web:4b8c7be988b12ed47245fc",
+  measurementId: "G-8K0ZQ8LPYH"
+};
   // ===================================
 
   firebase.initializeApp(firebaseConfig);
