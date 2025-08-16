@@ -1,98 +1,164 @@
-<!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Kz-Official — Mini CPU-Z</title>
-
-  <link rel="stylesheet" href="styles.css" />
-
-  <!-- Tailwind (opsional; kalau tidak perlu, hapus baris ini) -->
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <meta name="description" content="KZO ID - Jasa Pembuatan Website Profesional dari Bayangan.ID Community">
+  <title>KZO ID | Jasa Pembuatan Website - Bayangan.ID</title>
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- UAParser (deteksi vendor/model/OS/browser) -->
-  <script src="ua-parser.min.js"></script>
-
-  <!-- EmailJS SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <script>
+   function toggleProductMenu() {
+    const menu = document.getElementById("product-menu");
+    menu.classList.toggle("hidden");
+    menu.classList.toggle("animate-fadeIn");
+   }
+   
+   function buyProduct(productName, price) {
+    const phone = "6285351952977";
+    const text = encodeURIComponent(`Halo admin KZO ID ✨\nSaya ingin order:\n▸ Paket: *${productName}*\n▸ Harga: ${price}\n\nBisa dibantu lebih lanjut?`);
+    const url = `https://wa.me/${phone}?text=${text}`;
+    window.open(url, "_blank");
+   }
+  </script>
+  <style>
+   @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+   }
+   .animate-fadeIn {
+    animation: fadeIn 0.3s ease-out;
+   }
+   .hover-scale {
+    transition: all 0.25s ease;
+   }
+   .hover-scale:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+   }
+   .glow-text {
+    text-shadow: 0 0 8px rgba(192, 132, 252, 0.4);
+   }
+  </style>
 </head>
-<body class="page">
-  <main class="card container">
-    <header class="card__head">
-      <div class="brand">
-        <img src="logo.png" alt="logo" class="brand__logo" />
-        <h1 class="brand__title">Kz-Official — Mini CPU-Z</h1>
+<body class="min-h-screen flex flex-col items-center justify-center px-4 relative overflow-hidden bg-slate-900">
+  <!-- Galaxy background -->
+  <div aria-hidden="true" class="absolute inset-0 -z-10">
+    <img 
+      src="https://files.catbox.moe/jnexj3.jpg" 
+      alt="Galaxy background"
+      class="w-full h-full object-cover opacity-90"
+    />
+    <div class="absolute inset-0 bg-gradient-to-b from-slate-900/40 via-slate-900/70 to-slate-900/90"></div>
+  </div>
+
+  <div class="flex flex-col items-center space-y-4 max-w-xs w-full relative z-10 py-8">
+    <!-- Profile Section -->
+    <div class="flex flex-col items-center mb-4">
+      <div class="relative">
+        <img alt="Logo KZO ID" class="rounded-full w-24 h-24 border-2 border-purple-400 shadow-lg hover:shadow-purple-400/30 transition" src="https://files.catbox.moe/ueaggj.png"/>
+        <span class="absolute -bottom-1 -right-1 bg-purple-500 text-white text-xs px-2 py-1 rounded-full">Online</span>
       </div>
-      <span id="status" class="status">Menunggu persetujuan…</span>
-    </header>
+      <h1 class="text-white font-bold text-xl mt-3 glow-text">KZO ID</h1>
+      <p class="text-slate-300 text-sm text-center mt-1">Information & technology digital developer </p>
+    </div>
 
-    <section class="grid">
-      <article class="panel">
-        <h2>Identitas Perangkat</h2>
-        <ul class="kv">
-          <li><b>Merek</b><span id="v_vendor">—</span></li>
-          <li><b>Model</b><span id="v_model">—</span></li>
-          <li><b>OS</b><span id="v_os">—</span></li>
-          <li><b>Browser</b><span id="v_browser">—</span></li>
-          <li><b>Platform</b><span id="v_platform">—</span></li>
-          <li><b>Resolusi</b><span id="v_res">—</span></li>
-          <li><b>Kedalaman Warna</b><span id="v_depth">—</span></li>
-        </ul>
-      </article>
+    <!-- Action Buttons -->
+    <div class="w-full space-y-3">
+      <a class="w-full border border-purple-400 rounded-lg py-2.5 flex items-center justify-center space-x-2 text-white hover:bg-purple-400/20 hover:border-purple-300 transition hover-scale" 
+         href="https://t.me/cskz10_bot" target="_blank" rel="noopener noreferrer">
+        <i class="fas fa-headset text-purple-300"></i>
+        <span>Live Chat</span>
+      </a>
+      
+      <a class="w-full border border-green-400 rounded-lg py-2.5 flex items-center justify-center space-x-2 text-white hover:bg-green-400/20 hover:border-green-300 transition hover-scale" 
+         href="https://wa.me/6285351952977" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-whatsapp text-green-300"></i>
+        <span>Quick Response</span>
+      </a>
+      
+      <button class="w-full border border-blue-400 rounded-lg py-2.5 flex items-center justify-center space-x-2 text-white hover:bg-blue-400/20 hover:border-blue-300 transition hover-scale" 
+              onclick="toggleProductMenu()">
+        <i class="fas fa-laptop-code text-blue-300"></i>
+        <span>Our Services</span>
+      </button>
+      
+      <a class="w-full border border-amber-400 rounded-lg py-2.5 flex items-center justify-center space-x-2 text-white hover:bg-amber-400/20 hover:border-amber-300 transition hover-scale" 
+         href="https://whatsapp.com/channel/0029VbBYKPVBA1f6Sf2cTd2o" target="_blank" rel="noopener noreferrer">
+        <i class="fas fa-bell text-amber-300"></i>
+        <span>Updates Channel</span>
+      </a>
+    </div>
 
-      <article class="panel">
-        <h2>Jaringan & Lokasi</h2>
-        <ul class="kv">
-          <li><b>IP</b><span id="v_ip">—</span></li>
-          <li><b>Provinsi</b><span id="v_prov">—</span></li>
-          <li><b>Kota</b><span id="v_kota">—</span></li>
-          <li><b>GPS</b><span id="v_gps">—</span></li>
-          <li><b>Zona Waktu</b><span id="v_tz">—</span></li>
-          <li><b>Koneksi</b><span id="v_conn">—</span></li>
-          <li><b>Perk. Downlink</b><span id="v_speed">—</span></li>
-          <li><b>Status Online</b><span id="v_online">—</span></li>
-        </ul>
-      </article>
+    <!-- Product Menu -->
+    <div class="w-full bg-slate-800/80 backdrop-blur-sm rounded-lg p-4 mt-2 hidden border border-slate-700 shadow-xl" id="product-menu">
+      <h3 class="text-white font-semibold mb-3 text-center text-lg border-b border-slate-700 pb-2">
+        <i class="fas fa-fire text-amber-400 mr-2"></i>Hot Packages
+      </h3>
+      <ul class="text-slate-300 space-y-3">
+        <li class="flex justify-between items-center border border-slate-700 rounded-lg p-3 bg-gradient-to-r from-slate-900/50 via-slate-800/50 to-slate-900/50 hover:from-slate-800/60 transition">
+          <div>
+            <p class="font-semibold text-white">
+              <i class="fas fa-seedling text-emerald-400 mr-2"></i>Website Basic
+            </p>
+            <p class="text-sm text-slate-400">
+              Rp 5.000 - ?????
+            </p>
+            <p class="text-xs text-slate-500 mt-1">Perfect for small business starters</p>
+          </div>
+          <button class="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-3 py-1 rounded text-sm font-medium transition shadow hover:shadow-lg" 
+                  onclick="buyProduct('Starter Package', 'Rp 5.000 - ???.000')">
+            Order Now
+          </button>
+        </li>
+        
+        <li class="flex justify-between items-center border border-slate-700 rounded-lg p-3 bg-gradient-to-r from-slate-900/50 via-slate-800/50 to-slate-900/50 hover:from-slate-800/60 transition">
+          <div>
+            <p class="font-semibold text-white">
+              <i class="fas fa-rocket text-blue-400 mr-2"></i>Produk & PT Basic
+            </p>
+            <p class="text-sm text-slate-400">
+              Rp 10.000 - ???.000
+            </p>
+            <p class="text-xs text-slate-500 mt-1">Complete business solution</p>
+          </div>
+          <button class="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white px-3 py-1 rounded text-sm font-medium transition shadow hover:shadow-lg" 
+                  onclick="buyProduct('Business Package', 'Rp 10.000 - ???.000')">
+            Order Now
+          </button>
+        </li>
+        
+        <li class="flex justify-between items-center border border-slate-700 rounded-lg p-3 bg-gradient-to-r from-slate-900/50 via-slate-800/50 to-slate-900/50 hover:from-slate-800/60 transition">
+          <div>
+            <p class="font-semibold text-white">
+              <i class="fas fa-crown text-purple-400 mr-2"></i>premium & VIP
+            </p>
+            <p class="text-sm text-slate-400">
+              Rp 50.000+
+            </p>
+            <p class="text-xs text-slate-500 mt-1">Custom premium solution</p>
+          </div>
+          <button class="bg-gradient-to-r from-purple-500 to-fuchsia-600 hover:from-purple-600 hover:to-fuchsia-700 text-white px-3 py-1 rounded text-sm font-medium transition shadow hover:shadow-lg" 
+                  onclick="buyProduct('Enterprise Package', 'Rp 50.000+')">
+            Order Now
+          </button>
+        </li>
+      </ul>
+    </div>
 
-      <article class="panel panel--full">
-        <h2>Perangkat</h2>
-        <ul class="kv">
-          <li><b>Baterai</b><span id="v_batt">—</span></li>
-          <li><b>Cookies</b><span id="v_cookie">—</span></li>
-          <li><b>User-Agent</b><span id="v_ua" class="ua">—</span></li>
-        </ul>
-      </article>
-    </section>
-
-    <footer class="card__foot">
-      <small>Data disimpan ke Firebase & dikirim ke email admin via EmailJS setelah Anda menyetujui.</small>
-    </footer>
-  </main>
-
-  <!-- Modal persetujuan -->
-  <div id="consentModal" class="modal show">
-    <div class="modal__card">
-      <h3>Persetujuan Pengambilan Data</h3>
-      <p>
-        Kami akan mengumpulkan info perangkat (merek, model, OS, browser), IP, lokasi (GPS), status baterai,
-        info koneksi, dan data teknis lain untuk keperluan diagnostik. Data disimpan di Firebase dan
-        ringkasannya dikirim ke email admin. Lanjutkan?
+    <!-- Footer -->
+    <div class="text-center mt-6 pt-4 border-t border-slate-800 w-full">
+      <p class="text-slate-400 text-xs">
+        © <span id="current-year">2025</span> KZO ID | <span class="text-purple-300 hover:text-purple-400 transition">Bayangan.ID</span>
       </p>
-      <label class="chk">
-        <input type="checkbox" id="agree" />
-        <span>Saya setuju dan mengizinkan lokasi & pengambilan data perangkat.</span>
-      </label>
-      <div class="modal__actions">
-        <button id="btnAgree" class="btn">Setuju & Lanjutkan</button>
-        <button id="btnCancel" class="btn btn--ghost">Batal</button>
-      </div>
+      <p class="text-slate-500 text-xs mt-1">
+        Transforming ideas into digital reality
+      </p>
     </div>
   </div>
 
-  <!-- Config terpisah -->
-  <script src="firebase.js"></script>
-  <script src="email.js"></script>
-  <!-- App utama -->
-  <script src="app.js"></script>
+  <script>
+    // Auto update copyright year
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
