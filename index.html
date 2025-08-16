@@ -19,6 +19,25 @@
     const url = `https://wa.me/${phone}?text=${text}`;
     window.open(url, "_blank");
    }
+
+   // Visitor counter function
+   function updateVisitorCount() {
+     if (typeof(Storage) !== "undefined") {
+       if (localStorage.getItem("visited") === null) {
+         // First visit - increment counter
+         let count = localStorage.getItem("visitorCount") || 0;
+         count = parseInt(count) + 999.999+;
+         localStorage.setItem("visitorCount", count);
+         localStorage.setItem("visited", "true");
+         document.getElementById("visitor-count").textContent = count.toLocaleString();
+       }
+       // Display current count
+       document.getElementById("visitor-count").textContent = 
+         (localStorage.getItem("visitorCount") || "999,999+").toLocaleString();
+     } else {
+       document.getElementById("visitor-count").textContent = "999,999+";
+     }
+   }
   </script>
   <style>
    @keyframes fadeIn {
@@ -40,7 +59,7 @@
    }
   </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center px-4 relative overflow-hidden bg-slate-900">
+<body class="min-h-screen flex flex-col items-center justify-center px-4 relative overflow-hidden bg-slate-900" onload="updateVisitorCount()">
   <!-- Galaxy background -->
   <div aria-hidden="true" class="absolute inset-0 -z-10">
     <img 
@@ -60,6 +79,11 @@
       </div>
       <h1 class="text-white font-bold text-xl mt-3 glow-text">KZO ID</h1>
       <p class="text-slate-300 text-sm text-center mt-1">Information & technology digital developer </p>
+      <!-- Visitor Counter -->
+      <div class="flex items-center mt-2 text-slate-400 text-xs">
+        <i class="fas fa-users mr-1"></i>
+        <span>Total Pengunjung: <span id="visitor-count" class="font-medium text-purple-300">999,999+</span></span>
+      </div>
     </div>
 
     <!-- Action Buttons -->
