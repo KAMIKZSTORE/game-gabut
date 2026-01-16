@@ -1,29 +1,63 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-  <title>Test Notifikasi</title>
+  <meta charset="UTF-8">
+  <title>Kamikz ID - Notifikasi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+      text-align: center;
+      padding-top: 80px;
+    }
+    button {
+      padding: 15px 30px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background: #22c55e;
+      color: black;
+      cursor: pointer;
+    }
+    button:hover {
+      opacity: 0.8;
+    }
+  </style>
 </head>
 <body>
 
-<button onclick="kirimNotif()">Kirim Notifikasi</button>
+  <h1>Kamikz ID</h1>
+  <p>Aktifkan Notifikasi Website</p>
 
-<script>
-function kirimNotif() {
-  if (!("Notification" in window)) {
-    alert("Browser tidak support notifikasi");
-    return;
-  }
+  <button onclick="aktifkanNotif()">Aktifkan Notifikasi</button>
 
-  Notification.requestPermission().then(permission => {
-    if (permission === "granted") {
-      new Notification("Kamikz ID", {
-        body: "Pesanan berhasil diproses",
-        icon: "logo.png" // logo notifikasi
+  <script>
+    // cek support
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("sw.js");
+    }
+
+    function aktifkanNotif() {
+      if (!("Notification" in window)) {
+        alert("Browser tidak mendukung notifikasi");
+        return;
+      }
+
+      Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+          new Notification("Kamikz ID", {
+            body: "Notifikasi berhasil diaktifkan",
+            icon: "logo.png"
+          });
+        } else {
+          alert("Notifikasi ditolak");
+        }
       });
     }
-  });
-}
-</script>
+  </script>
 
 </body>
 </html>
