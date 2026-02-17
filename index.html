@@ -1,63 +1,325 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>Kamikz ID - Notifikasi</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: white;
-      text-align: center;
-      padding-top: 80px;
-    }
-    button {
-      padding: 15px 30px;
-      font-size: 16px;
-      border: none;
-      border-radius: 8px;
-      background: #22c55e;
-      color: black;
-      cursor: pointer;
-    }
-    button:hover {
-      opacity: 0.8;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Push Notifikasi Real</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 40px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .permission-box {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #dc3545;
+        }
+        
+        .status-dot.active {
+            background: #28a745;
+            box-shadow: 0 0 10px #28a745;
+        }
+        
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-secondary {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #218838;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .info {
+            background: #e3f2fd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #1976d2;
+            line-height: 1.6;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <div class="logo">🔔</div>
+        <h1>Push Notifikasi</h1>
+        <p class="subtitle">Notifikasi nyata ke perangkat Anda</p>
+        
+        <div class="permission-box">
+            <div class="status">
+                <div class="status-dot" id="statusDot"></div>
+                <span id="statusText">Izin Notifikasi: Belum Diminta</span>
+            </div>
+            <button class="btn-primary" id="btnPermission" onclick="requestPermission()">
+                Izinkan Notifikasi
+            </button>
+        </div>
+        
+        <div id="notificationForm" class="hidden">
+            <div class="form-group">
+                <label>Judul Notifikasi</label>
+                <input type="text" id="notifTitle" placeholder="Judul..." value="📢 Pesan Baru">
+            </div>
+            
+            <div class="form-group">
+                <label>Isi Pesan</label>
+                <textarea id="notifBody" placeholder="Tulis pesan...">Ini adalah notifikasi nyata dari website!</textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>URL Gambar (Opsional)</label>
+                <input type="text" id="notifIcon" placeholder="https://..." value="https://cdn-icons-png.flaticon.com/512/3239/3239952.png">
+            </div>
+            
+            <button class="btn-secondary" onclick="sendNotification()">
+                Kirim Notifikasi Sekarang
+            </button>
+        </div>
+        
+        <div class="info">
+            <strong>Catatan:</strong> Notifikasi akan muncul meskipun browser ditutup (jika izin diberikan). 
+            Pastikan Anda tidak dalam mode fullscreen atau Do Not Disturb.
+        </div>
+    </div>
 
-  <h1>Kamikz ID</h1>
-  <p>Aktifkan Notifikasi Website</p>
-
-  <button onclick="aktifkanNotif()">Aktifkan Notifikasi</button>
-
-  <script>
-    // cek support
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("sw.js");
-    }
-
-    function aktifkanNotif() {
-      if (!("Notification" in window)) {
-        alert("Browser tidak mendukung notifikasi");
-        return;
-      }
-
-      Notification.requestPermission().then(permission => {
-        if (permission === "granted") {
-          new Notification("Kamikz ID", {
-            body: "Notifikasi berhasil diaktifkan",
-            icon: "logo.png"
-          });
-        } else {
-          alert("Notifikasi ditolak");
+    <script>
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(registration => {
+                    console.log('Service Worker registered:', registration);
+                })
+                .catch(error => {
+                    console.log('Service Worker registration failed:', error);
+                });
         }
-      });
-    }
-  </script>
 
+        // Check current permission status
+        function checkPermission() {
+            if (!('Notification' in window)) {
+                alert('Browser tidak mendukung notifikasi');
+                return;
+            }
+            
+            const permission = Notification.permission;
+            updateStatus(permission);
+        }
+
+        function updateStatus(permission) {
+            const dot = document.getElementById('statusDot');
+            const text = document.getElementById('statusText');
+            const btn = document.getElementById('btnPermission');
+            const form = document.getElementById('notificationForm');
+            
+            if (permission === 'granted') {
+                dot.classList.add('active');
+                text.textContent = 'Izin Notifikasi: Diizinkan ✓';
+                btn.textContent = 'Izin Sudah Diberikan';
+                btn.disabled = true;
+                form.classList.remove('hidden');
+            } else if (permission === 'denied') {
+                text.textContent = 'Izin Notifikasi: Ditolak ✗';
+                btn.textContent = 'Izin Ditolak (Buka Pengaturan Browser)';
+                btn.disabled = true;
+            } else {
+                text.textContent = 'Izin Notifikasi: Belum Diminta';
+                btn.textContent = 'Izinkan Notifikasi';
+                btn.disabled = false;
+            }
+        }
+
+        async function requestPermission() {
+            const permission = await Notification.requestPermission();
+            updateStatus(permission);
+            
+            if (permission === 'granted') {
+                // Kirim notifikasi welcome
+                new Notification('🎉 Berhasil!', {
+                    body: 'Notifikasi sekarang aktif di perangkat Anda',
+                    icon: 'https://cdn-icons-png.flaticon.com/512/3239/3239952.png',
+                    badge: 'https://cdn-icons-png.flaticon.com/512/3239/3239952.png',
+                    tag: 'welcome'
+                });
+            }
+        }
+
+        function sendNotification() {
+            const title = document.getElementById('notifTitle').value || 'Notifikasi';
+            const body = document.getElementById('notifBody').value || '';
+            const icon = document.getElementById('notifIcon').value || 'https://cdn-icons-png.flaticon.com/512/3239/3239952.png';
+            
+            // Opsi notifikasi lengkap
+            const options = {
+                body: body,
+                icon: icon,
+                badge: icon,
+                image: icon, // Gambar besar
+                tag: 'unique-' + Date.now(),
+                requireInteraction: false, // true = notifikasi tidak hilang sampai diklik
+                actions: [
+                    {
+                        action: 'open',
+                        title: 'Buka'
+                    },
+                    {
+                        action: 'close',
+                        title: 'Tutup'
+                    }
+                ],
+                data: {
+                    url: window.location.href,
+                    timestamp: new Date().toISOString()
+                }
+            };
+            
+            // Kirim via Service Worker untuk notifikasi persistent
+            if (navigator.serviceWorker.controller) {
+                navigator.serviceWorker.ready.then(registration => {
+                    registration.showNotification(title, options);
+                });
+            } else {
+                // Fallback untuk notifikasi biasa
+                new Notification(title, options);
+            }
+            
+            // Visual feedback
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = '✓ Terkirim!';
+            btn.style.background = '#6c757d';
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = '#28a745';
+            }, 2000);
+        }
+
+        // Cek status saat load
+        checkPermission();
+    </script>
 </body>
 </html>
